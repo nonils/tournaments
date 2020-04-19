@@ -1,23 +1,32 @@
 import { Request, Response } from 'express';
+import {inject, injectable} from "inversify";
+import {ITournamentService} from "../services/ITournamentService";
+import {TYPES} from "../types/types";
+import {controller, httpPost, interfaces} from "inversify-express-utils";
+import {CreateNewTournamentRequest} from "./dto/CreateNewTournamentRequest";
 
 
-export class TournamentController {
+@controller("/tournaments")
+export class TournamentController implements interfaces.Controller{
 
-    private static instance : TournamentController;
+    private _tournamentService: ITournamentService
 
-    public static getInstance():TournamentController {
-        if(!TournamentController.instance) {
-            TournamentController.instance = new TournamentController();
-        }
-        return TournamentController.instance;
+    private constructor(@inject(TYPES.ITournamentService) tournamentService : ITournamentService) {
+        this._tournamentService = tournamentService;
     }
 
-    private constructor() {
-    }
-
-
+    @httpPost("/")
     public async createNewTournament(req: Request, res:Response) {
-
+        this._tournamentService.createTournament(new CreateNewTournamentRequest(0,
+            "",
+            0,
+            false,
+            new Date(),
+            new Date(),
+            new Date(),
+            new Date(),
+            0,
+            []));
     }
 
 }

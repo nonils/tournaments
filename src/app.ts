@@ -1,27 +1,41 @@
 //src/app.ts
 import { HOST, PORT, SWAGGER_PREFIX} from './constants/system.constants';
 import express, { Application } from 'express';
-import { Routes } from './routes';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express'
 import * as swaggerDocument from './swagger.json'
+import 'reflect-metadata';
+import {Container} from "inversify";
+import {InversifyExpressServer} from "inversify-express-utils";
+import {ITournamentService} from "./services/ITournamentService";
+import {TournamentServiceImpl} from "./services/impl/TournamentServiceImpl";
+import morgan from "morgan";
+
+// declare metadata by @controller annotation
+import "./controller/tournament.controller";
+import {log} from "util";
+import {TYPES} from "./types/types";
+
+// set up container
+let container = new Container();
+
+// set up bindings
+container.bind<ITournamentService>(TYPES.ITournamentService).to(TournamentServiceImpl)
+
 
 class App {
-    public app: Application;
-    public controller: Routes;
+    public app: InversifyExpressServer;
 
     constructor() {
-        this.app = express();
-        this.setConfig();
-
-        this.controller = new Routes(this.app);
-        this.setSwaggerConfig();
+        this.app = new InversifyExpressServer(container);
+        this.app.setConfig(this.setConfig);
+        this.app.setConfig(this.setSwaggerConfig);
     }
 
-    private setConfig() {
-        this.app.use(bodyParser.json({ limit: '50mb' }));
-        this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+    private setConfig(app: express.Application) {
+        app.use(bodyParser.json({ limit: '50mb' }));
+        app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
         const corsOptions: cors.CorsOptions = {
             allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
@@ -31,22 +45,23 @@ class App {
             preflightContinue: false
         };
 
-        this.app.use(function(req, res, next) {
+        app.use(function(req, res, next) {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             next();
         });
-
-        this.app.use(cors(corsOptions));
+        app.use(cors(corsOptions));
+        let logger = morgan('combined')
+        app.use(logger);
     }
 
-    private setSwaggerConfig() {
+    private setSwaggerConfig(app: express.Application) {
         let options = { customCssUrl: '/swagger/custom.css', customJs: '/swagger/custom.js' };
         let swd: any = swaggerDocument;
         swd.host = `${HOST}:${PORT}`
         swd.basePath = `${SWAGGER_PREFIX}`;
-        this.app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
+        app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
     }
 }
 
-export default new App().app;
+export default new App().app.build();

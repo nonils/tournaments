@@ -8,7 +8,7 @@ export class Routes {
     private prefix = '/api/v1'
 
     constructor(private app: Application) {
-        this.TournamentController = TournamentController.getInstance();
+        this.TournamentController = TournamentController;
         this.middleware();
         this.routes();
     }
