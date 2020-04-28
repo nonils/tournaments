@@ -8,6 +8,7 @@ import {ApiOperationGet, ApiOperationPost, ApiPath, SwaggerDefinitionConstant} f
 import {Tournament} from "../models/Tournament";
 import {TournamentMapper} from "../mapper/TournamentMapper";
 import {ICompetitorService} from "../services/ICompetitorService";
+import {CompetitorRequest} from "./dto/CompetitorRequest";
 
 
 @ApiPath({
@@ -24,6 +25,39 @@ export class CompetitorController implements interfaces.Controller{
     public constructor(@inject(TYPES.ICompetitorService) service : ICompetitorService) {
         this._competitorService = service;
     }
+
+    @ApiOperationPost({
+        description: "Create a new competitor for an existing tournament",
+        summary: "Create a new competitor",
+        parameters: {
+            body: { description: "Create a new competitor", required: true, model: "CompetitorRequest" }
+        },
+        responses: {
+            200: { description: "Success" },
+            400: { description: "Invalid casino, game or userId" },
+            404: { description: "An element was not found trying to create the competitor" }
+        }
+    })
+    @httpPost("/")
+    public async createNewCompetitor(req: Request, res: Response) {
+        CompetitorRequest.fromReqToCompetitorRequest(req);
+    }
+
+    @httpGet("/:id")
+    public async GetCompetitorById(req: Request, res:Response) {
+
+    }
+
+    @httpPut("/")
+    public async ModifyCompetitor(req:Request, res: Response) {
+
+    }
+
+    @httpPost("/played")
+    public async AddPlayedGame(req:Request, res: Response) {
+
+    }
+
 
 
 }
