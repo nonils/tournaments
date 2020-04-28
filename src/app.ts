@@ -13,7 +13,7 @@ import "./env";
 import * as swagger from "swagger-express-ts";
 // declare metadata by @controller annotation
 import {TYPES} from "./types/types";
-import {TournamentController} from "./controller/tournament.controller";
+import {TournamentController} from "./controller/TournamentController";
 import {TournamentRepositoryImpl} from "./repository/impl/TournamentRepository.impl";
 import {WrapperDB} from "./repository/WrappereDB";
 import {ITournamentRepository} from "./repository/ITournamentRepository";
