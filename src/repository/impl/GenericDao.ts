@@ -1,6 +1,7 @@
 import {injectable} from "inversify";
 import {Collection, Cursor} from 'mongodb';
 import {IGenericDao} from "../IGenericDao";
+import {mongoose} from "@typegoose/typegoose";
 
 @injectable()
 export class GenericDao<T> implements IGenericDao<T>{
@@ -16,12 +17,13 @@ export class GenericDao<T> implements IGenericDao<T>{
     }
 
 
-    async update(id: string, item: T): Promise<boolean> {
-        throw new Error('Method not implemented.');
+    async update(id: string, item: T): Promise<T> {
+        let result = await this._collection.updateOne({_id: mongoose.Types.ObjectId(id)}, item)
+        return <T>(await this._collection.findOne({_id: result.upsertedId}) as unknown);
     }
 
     async delete(id: string): Promise<boolean> {
-        throw new Error('Method not implemented.');
+        return (await this._collection.deleteOne({_id: mongoose.Types.ObjectId(id)})).result.ok === 0
     }
 
     async find(item: T): Promise<T[]> {
@@ -30,7 +32,7 @@ export class GenericDao<T> implements IGenericDao<T>{
     }
 
     async findOne(id: string): Promise<T> {
-        return <T>(await this._collection.findOne({_id: id}) as unknown);
+        return <T>(await this._collection.findOne({_id: mongoose.Types.ObjectId(id)}) as unknown);
     }
 
 }

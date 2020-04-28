@@ -2,10 +2,11 @@ import {Request, Response} from 'express';
 import {inject} from "inversify";
 import {ITournamentService} from "../services/ITournamentService";
 import {TYPES} from "../types/types";
-import {controller, httpGet, httpPost, interfaces} from "inversify-express-utils";
+import {controller, httpDelete, httpGet, httpPost, httpPut, interfaces} from "inversify-express-utils";
 import {CreateNewTournamentRequest} from "./dto/CreateNewTournamentRequest";
 import {ApiOperationGet, ApiOperationPost, ApiPath, SwaggerDefinitionConstant} from "swagger-express-ts";
 import {Tournament} from "../models/Tournament";
+import {TournamentMapper} from "../mapper/TournamentMapper";
 
 
 @ApiPath({
@@ -37,7 +38,9 @@ export class TournamentController implements interfaces.Controller{
     })
     @httpPost("/", )
     public async createNewTournament(req: Request, res:Response) {
-        const response = await this._tournamentService.createTournament(CreateNewTournamentRequest.buildFromReq(req.body))
+        const response = await this._tournamentService
+            .createTournament(TournamentMapper.mapFromCreateNewTournamentRequestToTournament(
+                CreateNewTournamentRequest.buildFromReq(req.body)));
         res.send(response);
         return;
     }
@@ -56,6 +59,26 @@ export class TournamentController implements interfaces.Controller{
         const response = await this._tournamentService.findAllTournaments();
         res.send(response);
         return;
+    }
+
+    @httpGet("/:id")
+    public async GetTournamentById(req: Request, res: Response) {
+        const response = await this._tournamentService.findTournamentById(req.params.id);
+        res.send(response);
+        return;
+    }
+
+    @httpPut("/")
+    public async UpdateTournament(req : Request, res : Response) {
+        const response = await this._tournamentService.updateTournament(req.body.id,
+            TournamentMapper.mapFromCreateNewTournamentRequestToTournament(CreateNewTournamentRequest.buildFromReq(req.body)));
+        res.send(response);
+        return;
+    }
+
+    @httpDelete("/:id")
+    public async DeleteTournamentById(req:Request, res:Response) {
+        this._tournamentService.deleteTournamentById(req.params.id)
     }
 
 }

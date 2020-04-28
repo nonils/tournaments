@@ -14,19 +14,30 @@ export class TournamentServiceImpl implements ITournamentService {
     constructor(@inject(TYPES.ITournamentRepository)tournamentRepository : ITournamentRepository ) {
         this.tournamentRepository = tournamentRepository
     }
-    async createTournament(createNewTournamentRequest: CreateNewTournamentRequest): Promise<Tournament> {
+
+    async createTournament(tournament: Tournament): Promise<Tournament> {
         try{
-            let tournament =TournamentMapper.mapFromCreateNewTournamentRequestToTournament(createNewTournamentRequest)
             return await this.tournamentRepository.create(tournament);
         } catch (e) {
             console.error(e);
             throw e;
         }
-
     }
 
     async findAllTournaments(): Promise<Tournament[]> {
         return await this.tournamentRepository.find({} as Tournament);
+    }
+
+    async findTournamentById(id: string): Promise<Tournament> {
+        return await this.tournamentRepository.findOne(id);
+    }
+
+    deleteTournamentById(id: string): void {
+        this.tournamentRepository.delete(id);
+    }
+
+    async updateTournament(id:string ,tournament:Tournament):Promise<Tournament> {
+       return this.tournamentRepository.update(id, tournament);
     }
 
 }
