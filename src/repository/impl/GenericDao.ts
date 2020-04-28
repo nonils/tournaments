@@ -1,17 +1,18 @@
 import {injectable} from "inversify";
-import { MongoClient, Db, Collection, InsertOneWriteOpResult } from 'mongodb';
+import {Collection} from 'mongodb';
+import {IGenericDao} from "../IGenericDao";
 
 @injectable()
-export class GenericDao<T> {
+export class GenericDao<T> implements IGenericDao<T>{
     public readonly _collection: Collection;
 
     constructor(collection :Collection) {
         this._collection = collection;
     }
 
-    async create(entity: T): Promise<boolean> {
+    async create (entity: T) : Promise<T> {
         const result = await this._collection.insertOne(entity);
-        return !!result.result.ok;
+        return <T>(await this._collection.findOne({_id: result.insertedId}) as unknown);
     }
 
 

@@ -36,7 +36,9 @@ export class TournamentController implements interfaces.Controller{
     })
     @httpPost("/")
     public async createNewTournament(req: Request, res:Response) {
-        this._tournamentService.createTournament(CreateNewTournamentRequest.buildFromReq(req.body));
+        const response = await this._tournamentService.createTournament(CreateNewTournamentRequest.buildFromReq(req.body))
+        res.send(response);
+        return;
     }
 
 }

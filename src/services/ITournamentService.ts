@@ -2,5 +2,5 @@ import {CreateNewTournamentRequest} from "../controller/dto/CreateNewTournamentR
 import {Tournament} from "../models/Tournament";
 
 export interface ITournamentService {
-    createTournament(createNewTournamentRequest:CreateNewTournamentRequest):Tournament
+    createTournament(createNewTournamentRequest:CreateNewTournamentRequest):Promise<Tournament>
 }

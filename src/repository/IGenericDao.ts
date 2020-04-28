@@ -1,6 +1,6 @@
 export interface IGenericDao<T> {
 
-    create(entity: T): Promise<boolean>
+    create(entity: T): Promise<T>
 
     update(id: string, item: T): Promise<boolean>
 

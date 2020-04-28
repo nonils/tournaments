@@ -14,10 +14,15 @@ export class TournamentServiceImpl implements ITournamentService {
     constructor(@inject(TYPES.ITournamentRepository)tournamentRepository : ITournamentRepository ) {
         this.tournamentRepository = tournamentRepository
     }
-    createTournament(createNewTournamentRequest: CreateNewTournamentRequest): Tournament {
-        let tournament =TournamentMapper.mapFromCreateNewTournamentRequestToTournament(createNewTournamentRequest)
-        this.tournamentRepository.create(tournament)
-        return tournament;
+    async createTournament(createNewTournamentRequest: CreateNewTournamentRequest): Promise<Tournament> {
+        try{
+            let tournament =TournamentMapper.mapFromCreateNewTournamentRequestToTournament(createNewTournamentRequest)
+            return await this.tournamentRepository.create(tournament);
+        } catch (e) {
+            console.error(e);
+            throw e;
+        }
+
     }
 
 }
