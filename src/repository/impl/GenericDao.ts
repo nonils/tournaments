@@ -1,7 +1,6 @@
 import {injectable} from "inversify";
 import {Collection, Cursor} from 'mongodb';
 import {IGenericDao} from "../IGenericDao";
-import {FilterQuery} from "mongoose";
 
 @injectable()
 export class GenericDao<T> implements IGenericDao<T>{
