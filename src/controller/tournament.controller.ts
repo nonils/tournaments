@@ -12,7 +12,7 @@ import {ApiOperationPost, ApiPath} from "swagger-express-ts";
     name: "Tournaments",
     security: { basicAuth: [] }
 })
-@controller("/tournaments")
+@controller("/api/v1/tournaments")
 export class TournamentController implements interfaces.Controller{
 
     public static TARGET_NAME: string = "TuVieja";

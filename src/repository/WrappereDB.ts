@@ -8,8 +8,10 @@ export class WrapperDB {
     connection : Connection
 
     constructor() {
-        this.connection = mongoose.connection
+        this.connection = mongoose.connect(process.env.MONGO_URL);
     }
+
+
 }
 
 

@@ -8,6 +8,7 @@ import {interfaces, InversifyExpressServer, TYPE} from "inversify-express-utils"
 import {ITournamentService} from "./services/ITournamentService";
 import {TournamentServiceImpl} from "./services/impl/TournamentServiceImpl";
 import morgan from "morgan";
+import "./env";
 
 import * as swagger from "swagger-express-ts";
 // declare metadata by @controller annotation
@@ -72,15 +73,6 @@ class App {
             }
         ) );
     }
-
-    /*
-        private setSwaggerConfig(app: express.Application) {
-            let options = { customCssUrl: '/swagger/custom.css', customJs: '/swagger/custom.js' };
-            let swd: any = swaggerDocument;
-            swd.host = `${HOST}:${PORT}`
-            swd.basePath = `${SWAGGER_PREFIX}`;
-            app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
-        }*/
 }
 
 export default new App().app.build();

@@ -1,5 +1,5 @@
-import {Collection} from 'mongodb';
 import {injectable} from "inversify";
+import { MongoClient, Db, Collection, InsertOneWriteOpResult } from 'mongodb';
 
 @injectable()
 export class GenericDao<T> {

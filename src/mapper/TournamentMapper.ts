@@ -4,7 +4,7 @@ import {PrizesMapper} from "./PrizesMapper";
 
 export class TournamentMapper {
 
-    static mapFromCreateNewTournamenetRequestToTournament(dto:CreateNewTournamentRequest) : Tournament {
+    static mapFromCreateNewTournamentRequestToTournament(dto:CreateNewTournamentRequest) : Tournament {
         const entity = new Tournament();
         entity.casinoId= dto.casinoId;
         entity.tournamentName= dto.tournamentName;
