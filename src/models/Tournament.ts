@@ -1,7 +1,9 @@
 import {Prize} from "./Prize";
 import {arrayProp, prop} from '@typegoose/typegoose';
 import {Competitor} from "./Competitor";
+import {ApiModel} from "swagger-express-ts";
 
+@ApiModel({name : "Tournament", description: "Tournament"})
 export class Tournament {
     @prop()
     casinoId: number = 0;

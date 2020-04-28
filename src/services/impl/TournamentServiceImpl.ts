@@ -25,4 +25,8 @@ export class TournamentServiceImpl implements ITournamentService {
 
     }
 
+    async findAllTournaments(): Promise<Tournament[]> {
+        return await this.tournamentRepository.find({} as Tournament);
+    }
+
 }

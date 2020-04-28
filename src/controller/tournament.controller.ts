@@ -2,9 +2,10 @@ import {Request, Response} from 'express';
 import {inject} from "inversify";
 import {ITournamentService} from "../services/ITournamentService";
 import {TYPES} from "../types/types";
-import {controller, httpPost, interfaces} from "inversify-express-utils";
+import {controller, httpGet, httpPost, interfaces} from "inversify-express-utils";
 import {CreateNewTournamentRequest} from "./dto/CreateNewTournamentRequest";
-import {ApiOperationPost, ApiPath} from "swagger-express-ts";
+import {ApiOperationGet, ApiOperationPost, ApiPath, SwaggerDefinitionConstant} from "swagger-express-ts";
+import {Tournament} from "../models/Tournament";
 
 
 @ApiPath({
@@ -34,9 +35,25 @@ export class TournamentController implements interfaces.Controller{
             404: { description: "An element was not found trying to create the tournament" }
         }
     })
-    @httpPost("/")
+    @httpPost("/", )
     public async createNewTournament(req: Request, res:Response) {
         const response = await this._tournamentService.createTournament(CreateNewTournamentRequest.buildFromReq(req.body))
+        res.send(response);
+        return;
+    }
+
+    @ApiOperationGet({
+        description: "Get all tournaments",
+        summary: "Create a new tournament",
+        parameters: {
+        },
+        responses: {
+            200: { description: "Success" , type: SwaggerDefinitionConstant.Response.Type.ARRAY, model: "Tournament" },
+        }
+    })
+    @httpGet("/")
+    public async GetTournaments(req: Request, res:Response) {
+        const response = await this._tournamentService.findAllTournaments();
         res.send(response);
         return;
     }
