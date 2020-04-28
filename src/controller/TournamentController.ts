@@ -81,4 +81,9 @@ export class TournamentController implements interfaces.Controller{
         this._tournamentService.deleteTournamentById(req.params.id)
     }
 
+    @httpPost("/competitor")
+    public async RegisterCompetitor(req:Request, res: Response) {
+
+    }
+
 }

@@ -17,6 +17,11 @@ import {TournamentController} from "./controller/TournamentController";
 import {TournamentRepositoryImpl} from "./repository/impl/TournamentRepository.impl";
 import {WrapperDB} from "./repository/WrappereDB";
 import {ITournamentRepository} from "./repository/ITournamentRepository";
+import {CompetitorServiceImpl} from "./services/impl/CompetitorServiceImpl";
+import {CompetitorRepositoryImpl} from "./repository/impl/CompetitorRepositoryImpl";
+import {ICompetitorRepository} from "./repository/ICompetitorRepository";
+import {ICompetitorService} from "./services/ICompetitorService";
+import {CompetitorController} from "./controller/CompetitorController";
 
 // set up container
 let container = new Container();
@@ -25,8 +30,12 @@ let container = new Container();
 container.bind<WrapperDB>(TYPES.WrapperDB).to(WrapperDB)
 container.bind<ITournamentRepository>(TYPES.ITournamentRepository).to(TournamentRepositoryImpl)
 container.bind<ITournamentService>(TYPES.ITournamentService).to(TournamentServiceImpl)
+container.bind<ICompetitorRepository>(TYPES.ICompetitorRepository).to(CompetitorRepositoryImpl)
+container.bind<ICompetitorService>(TYPES.ICompetitorService).to(CompetitorServiceImpl)
 container.bind<interfaces.Controller> ( TYPE.Controller )
     .to( TournamentController ).inSingletonScope().whenTargetNamed( TournamentController.TARGET_NAME );
+container.bind<interfaces.Controller> ( TYPE.Controller )
+    .to( CompetitorController ).inSingletonScope().whenTargetNamed( CompetitorController.TARGET_NAME );
 
 class App {
     public app: InversifyExpressServer;
