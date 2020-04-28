@@ -25,6 +25,7 @@ export class Tournament {
     prizes: Prize[] = [];
     @arrayProp({ref: Competitor})
     competitors?: Competitor[]=[];
+
 }
 
 

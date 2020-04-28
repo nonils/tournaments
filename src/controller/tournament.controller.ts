@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import {inject, injectable} from "inversify";
+import {Request, Response} from 'express';
+import {inject} from "inversify";
 import {ITournamentService} from "../services/ITournamentService";
 import {TYPES} from "../types/types";
 import {controller, httpPost, interfaces} from "inversify-express-utils";
@@ -8,8 +8,8 @@ import {ApiOperationPost, ApiPath} from "swagger-express-ts";
 
 
 @ApiPath({
-    path: "/versions",
-    name: "Version",
+    path: "/tournaments",
+    name: "Tournaments",
     security: { basicAuth: [] }
 })
 @controller("/tournaments")
@@ -26,7 +26,7 @@ export class TournamentController implements interfaces.Controller{
         description: "Post tournament object",
         summary: "Create a new tournament",
         parameters: {
-            body: { description: "Create a new tournament", required: true, model: "Tournament" }
+            body: { description: "Create a new tournament", required: true, model: "TournamentRequest" }
         },
         responses: {
             200: { description: "Success" },
@@ -36,16 +36,7 @@ export class TournamentController implements interfaces.Controller{
     })
     @httpPost("/")
     public async createNewTournament(req: Request, res:Response) {
-        this._tournamentService.createTournament(new CreateNewTournamentRequest(0,
-            "",
-            0,
-            false,
-            new Date(),
-            new Date(),
-            new Date(),
-            new Date(),
-            0,
-            []));
+        this._tournamentService.createTournament(CreateNewTournamentRequest.buildFromReq(req.body));
     }
 
 }

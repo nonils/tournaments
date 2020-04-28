@@ -1,6 +1,5 @@
 //src/app.ts
-import {HOST, PORT, SWAGGER_PREFIX} from './constants/system.constants';
-import express, {Application} from 'express';
+import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import 'reflect-metadata';
@@ -11,16 +10,19 @@ import {TournamentServiceImpl} from "./services/impl/TournamentServiceImpl";
 import morgan from "morgan";
 
 import * as swagger from "swagger-express-ts";
-import { SwaggerDefinitionConstant } from "swagger-express-ts";
-
 // declare metadata by @controller annotation
 import {TYPES} from "./types/types";
 import {TournamentController} from "./controller/tournament.controller";
+import {TournamentRepositoryImpl} from "./repository/impl/TournamentRepository.impl";
+import {WrapperDB} from "./repository/WrappereDB";
+import {ITournamentRepository} from "./repository/ITournamentRepository";
 
 // set up container
 let container = new Container();
 
 // set up bindings
+container.bind<WrapperDB>(TYPES.WrapperDB).to(WrapperDB)
+container.bind<ITournamentRepository>(TYPES.ITournamentRepository).to(TournamentRepositoryImpl)
 container.bind<ITournamentService>(TYPES.ITournamentService).to(TournamentServiceImpl)
 container.bind<interfaces.Controller> ( TYPE.Controller )
     .to( TournamentController ).inSingletonScope().whenTargetNamed( TournamentController.TARGET_NAME );
