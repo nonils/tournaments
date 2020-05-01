@@ -14,10 +14,10 @@ export class CompetitorRequest {
         description : "Tournament id" ,
         required : true,
     })
-    tournamentId: number=0;
+    tournamentId: string="";
 
 
-    static fromReqToCompetitorRequest(body:any) : CompetitorRequest{
+    static fromBodyToCompetitorRequest(body:any) : CompetitorRequest{
         let entity = new CompetitorRequest();
         entity.tournamentId = body.tournamentId;
         entity.userId = body.userId;

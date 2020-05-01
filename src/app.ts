@@ -22,6 +22,7 @@ import {CompetitorRepositoryImpl} from "./repository/impl/CompetitorRepositoryIm
 import {ICompetitorRepository} from "./repository/ICompetitorRepository";
 import {ICompetitorService} from "./services/ICompetitorService";
 import {CompetitorController} from "./controller/CompetitorController";
+import errorMiddleware from "./middleware/CustomExceptionMiddleware";
 
 // set up container
 let container = new Container();
@@ -43,12 +44,13 @@ class App {
     constructor() {
         this.app = new InversifyExpressServer(container);
         this.app.setConfig(this.setConfig);
+        this.app.setErrorConfig(this.configError);
     }
+
 
     private setConfig(app: express.Application) {
         app.use(bodyParser.json({limit: '50mb'}));
         app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-
         const corsOptions: cors.CorsOptions = {
             allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
             credentials: true,
@@ -81,6 +83,10 @@ class App {
                 }
             }
         ) );
+    }
+
+    private configError(app: express.Application) {
+        app.use(errorMiddleware);
     }
 }
 

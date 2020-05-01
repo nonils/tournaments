@@ -7,5 +7,6 @@ export interface ICompetitorService {
     FinishGame():Promise<Competitor>
     UnsubscribeCompetitor(id:string):void
     FindAllSubscriptionsForTournament(id:string):Promise<Competitor[]>
+    FindCompetitorById(id:string):Promise<Competitor>
 
 }

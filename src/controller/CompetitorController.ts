@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import {NextFunction, Request, Response} from 'express';
 import {inject} from "inversify";
 import {ITournamentService} from "../services/ITournamentService";
 import {TYPES} from "../types/types";
@@ -9,6 +9,7 @@ import {Tournament} from "../models/Tournament";
 import {TournamentMapper} from "../mapper/TournamentMapper";
 import {ICompetitorService} from "../services/ICompetitorService";
 import {CompetitorRequest} from "./dto/CompetitorRequest";
+import {CompetitorMapper} from "../mapper/CompetitorMapper";
 
 
 @ApiPath({
@@ -39,13 +40,15 @@ export class CompetitorController implements interfaces.Controller{
         }
     })
     @httpPost("/")
-    public async createNewCompetitor(req: Request, res: Response) {
-        CompetitorRequest.fromReqToCompetitorRequest(req);
+    public async createNewCompetitor(req: Request, res: Response, next:NextFunction) {
+        let response = await this._competitorService.SubscribeCompetitor(CompetitorMapper.
+        MapFromCompetitorRequestToCompetitor(CompetitorRequest.fromBodyToCompetitorRequest(req.body)));
+        res.send(response);
     }
 
     @httpGet("/:id")
     public async GetCompetitorById(req: Request, res:Response) {
-
+        res.send(await this._competitorService.FindCompetitorById(req.params.id));
     }
 
     @httpPut("/")
