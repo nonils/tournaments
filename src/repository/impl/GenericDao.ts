@@ -4,21 +4,21 @@ import {IGenericDao} from "../IGenericDao";
 import {mongoose} from "@typegoose/typegoose";
 
 @injectable()
-export class GenericDao<T> implements IGenericDao<T>{
+export class GenericDao<T> implements IGenericDao<T> {
     public readonly _collection: Collection;
 
-    constructor(collection :Collection) {
+    constructor(collection: Collection) {
         this._collection = collection;
     }
 
-    async create (entity: T) : Promise<T> {
+    async create(entity: T): Promise<T> {
         const result = await this._collection.insertOne(entity);
         return <T>(await this._collection.findOne({_id: result.insertedId}) as unknown);
     }
 
 
     async update(id: string, item: T): Promise<T> {
-        let result = await this._collection.updateOne({_id: mongoose.Types.ObjectId(id)}, item)
+        let result = await this._collection.replaceOne({_id: mongoose.Types.ObjectId(id)}, item)
         return <T>(await this._collection.findOne({_id: result.upsertedId}) as unknown);
     }
 
@@ -27,7 +27,7 @@ export class GenericDao<T> implements IGenericDao<T>{
     }
 
     async find(item: T): Promise<T[]> {
-        const cursor: Cursor<T>=await this._collection.find<T>();
+        const cursor: Cursor<T> = await this._collection.find<T>();
         return cursor.toArray()
     }
 

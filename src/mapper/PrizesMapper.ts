@@ -4,7 +4,7 @@ import {PrizeElementMapper} from "./PrizeElementMapper";
 
 export class PrizesMapper {
 
-    static mapPrizesDTOToPrizes(dto: PrizeDTO[]) : Prize[]{
+    static mapPrizesDTOToPrizes(dto: PrizeDTO[]): Prize[] {
         return dto.map(PrizesMapper.mapPrizeDTOToPrize);
     }
 

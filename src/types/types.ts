@@ -6,4 +6,4 @@ const TYPES = {
     WrapperDB: Symbol.for("MongoDB")
 };
 
-export { TYPES };
+export {TYPES};

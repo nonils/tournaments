@@ -1,5 +1,5 @@
 import * as qs from "qs";
-import { PathLike } from "fs";
+import {PathLike} from "fs";
 
 export const apiUsersConfig = {
     returnRejectedPromiseOnError: true,
@@ -14,5 +14,5 @@ export const apiUsersConfig = {
             Accept: "application/json",
         },
     },
-    paramsSerializer: (params: PathLike) => qs.stringify(params, { indices: false }),
+    paramsSerializer: (params: PathLike) => qs.stringify(params, {indices: false}),
 }

@@ -4,30 +4,28 @@ import {ICompetitorRepository} from "../../repository/ICompetitorRepository";
 import {TYPES} from "../../types/types";
 import {Competitor} from "../../models/Competitor";
 import {ITournamentService} from "../ITournamentService";
-import {TournamentNotFoundException} from "../../exceptions/TournamentNotFoundException";
-import {apiUsersConfig} from "../../helpers/api.config";
 import {userApi} from "../../helpers/api.users";
 
 @injectable()
-export class CompetitorServiceImpl implements ICompetitorService{
-    _competitorRepository:ICompetitorRepository
-    _tournamentService : ITournamentService
-    constructor(@inject(TYPES.ICompetitorRepository)repository:ICompetitorRepository, @inject(TYPES.ITournamentService)tournamentService:ITournamentService) {
+export class CompetitorServiceImpl implements ICompetitorService {
+    _competitorRepository: ICompetitorRepository
+    _tournamentService: ITournamentService
+
+    constructor(@inject(TYPES.ICompetitorRepository)repository: ICompetitorRepository, @inject(TYPES.ITournamentService)tournamentService: ITournamentService) {
         this._competitorRepository = repository;
         this._tournamentService = tournamentService;
     }
 
 
-    async SubscribeCompetitor(competitor : Competitor) : Promise<Competitor> {
-        if(!competitor.tournament) {
+    async SubscribeCompetitor(competitor: Competitor): Promise<Competitor> {
+        if (!competitor.tournament) {
             throw new Error("Tournament is required");
         }
-        const tournament = await this._tournamentService.findTournamentById(competitor.tournament.toString());
-        if(!tournament) {
-            throw new TournamentNotFoundException(competitor.tournament.toString())
-        }
-        const responseFromUser = await userApi.findUserById(competitor.userId)
-        return this._competitorRepository.create(competitor);
+        await userApi.findUserById(competitor.userId)
+        let tournamentId = competitor.tournament.toString()
+        await this._tournamentService.findTournamentById(tournamentId);
+        competitor = await this._competitorRepository.create(competitor);
+        return competitor;
     }
 
     async FindAllSubscriptionsForTournament(id: string): Promise<Competitor[]> {

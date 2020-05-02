@@ -4,18 +4,18 @@ import {PrizesMapper} from "./PrizesMapper";
 
 export class TournamentMapper {
 
-    static mapFromCreateNewTournamentRequestToTournament(dto:CreateNewTournamentRequest) : Tournament {
+    static mapFromCreateNewTournamentRequestToTournament(dto: CreateNewTournamentRequest): Tournament {
         const entity = new Tournament();
-        entity.casinoId= dto.casinoId;
-        entity.tournamentName= dto.tournamentName;
-        entity.cost= dto.cost;
-        entity.from= dto.from;
-        entity.to= dto.to;
-        entity.inscriptionFrom= dto.inscriptionTo;
-        entity.inscriptionTo= dto.inscriptionTo;
-        entity.gameId= dto.gameId;
-        entity.mostWinMatches= dto.mostWinMatches;
-        entity.prizes= PrizesMapper.mapPrizesDTOToPrizes(dto.prizes);
+        entity.casinoId = dto.casinoId;
+        entity.tournamentName = dto.tournamentName;
+        entity.cost = dto.cost;
+        entity.from = dto.from;
+        entity.to = dto.to;
+        entity.inscriptionFrom = dto.inscriptionTo;
+        entity.inscriptionTo = dto.inscriptionTo;
+        entity.gameId = dto.gameId;
+        entity.mostWinMatches = dto.mostWinMatches;
+        entity.prizes = PrizesMapper.mapPrizesDTOToPrizes(dto.prizes);
 
         return entity;
     }

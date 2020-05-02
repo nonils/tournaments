@@ -1,9 +1,9 @@
 import {Prize} from "./Prize";
-import {arrayProp, prop} from '@typegoose/typegoose';
+import {arrayProp, prop, Ref} from '@typegoose/typegoose';
 import {Competitor} from "./Competitor";
 import {ApiModel} from "swagger-express-ts";
 
-@ApiModel({name : "Tournament", description: "Tournament"})
+@ApiModel({name: "Tournament", description: "Tournament"})
 export class Tournament {
     @prop()
     casinoId: number = 0;
@@ -26,7 +26,7 @@ export class Tournament {
     @prop()
     prizes: Prize[] = [];
     @arrayProp({ref: Competitor})
-    competitors?: Competitor[]=[];
+    competitors?: Ref<Competitor>[] = [];
 
 }
 

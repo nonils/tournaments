@@ -33,10 +33,10 @@ container.bind<ITournamentRepository>(TYPES.ITournamentRepository).to(Tournament
 container.bind<ITournamentService>(TYPES.ITournamentService).to(TournamentServiceImpl)
 container.bind<ICompetitorRepository>(TYPES.ICompetitorRepository).to(CompetitorRepositoryImpl)
 container.bind<ICompetitorService>(TYPES.ICompetitorService).to(CompetitorServiceImpl)
-container.bind<interfaces.Controller> ( TYPE.Controller )
-    .to( TournamentController ).inSingletonScope().whenTargetNamed( TournamentController.TARGET_NAME );
-container.bind<interfaces.Controller> ( TYPE.Controller )
-    .to( CompetitorController ).inSingletonScope().whenTargetNamed( CompetitorController.TARGET_NAME );
+container.bind<interfaces.Controller>(TYPE.Controller)
+    .to(TournamentController).inSingletonScope().whenTargetNamed(TournamentController.TARGET_NAME);
+container.bind<interfaces.Controller>(TYPE.Controller)
+    .to(CompetitorController).inSingletonScope().whenTargetNamed(CompetitorController.TARGET_NAME);
 
 class App {
     public app: InversifyExpressServer;
@@ -67,22 +67,22 @@ class App {
         app.use(cors(corsOptions));
         let logger = morgan('combined')
         app.use(logger);
-        app.use( '/api-docs/swagger', express.static( 'swagger' ) );
-        app.use( '/api-docs/swagger/assets', express.static( 'node_modules/swagger-ui-dist' ) );
-        app.use( swagger.express(
+        app.use('/api-docs/swagger', express.static('swagger'));
+        app.use('/api-docs/swagger/assets', express.static('node_modules/swagger-ui-dist'));
+        app.use(swagger.express(
             {
-                definition : {
-                    info : {
-                        title : "My api" ,
-                        version : "1.0"
-                    } ,
-                    externalDocs : {
-                        url : "My url"
+                definition: {
+                    info: {
+                        title: "My api",
+                        version: "1.0"
+                    },
+                    externalDocs: {
+                        url: "My url"
                     }
                     // Models can be defined here
                 }
             }
-        ) );
+        ));
     }
 
     private configError(app: express.Application) {
