@@ -5,6 +5,7 @@ import {TYPES} from "../../types/types";
 import {Competitor} from "../../models/Competitor";
 import {ITournamentService} from "../ITournamentService";
 import {userApi} from "../../helpers/api.users";
+import {CompetitorNotFoundException} from "../../exceptions/CompetitorNotFoundException";
 
 @injectable()
 export class CompetitorServiceImpl implements ICompetitorService {
@@ -29,18 +30,15 @@ export class CompetitorServiceImpl implements ICompetitorService {
     }
 
     async FindAllSubscriptionsForTournament(id: string): Promise<Competitor[]> {
-        return Promise.resolve([]);
+        return this._competitorRepository.findByTournamentId(id);
     }
 
     async FinishGame(): Promise<Competitor> {
         return Promise.resolve(new Competitor());
     }
 
-    async ModifyCompetitor(competitor: Competitor): Promise<Competitor> {
-        return Promise.resolve(new Competitor());
-    }
-
     UnsubscribeCompetitor(id: string): void {
+
     }
 
     FindCompetitorById(id: string): Promise<Competitor> {

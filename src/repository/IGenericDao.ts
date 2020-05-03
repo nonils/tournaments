@@ -1,4 +1,6 @@
-export interface IGenericDao<T> {
+import {SoftDeleteableBean} from "../models/SoftDeleteableBean";
+
+export interface IGenericDao<T extends SoftDeleteableBean> {
 
     create(entity: T): Promise<T>
 

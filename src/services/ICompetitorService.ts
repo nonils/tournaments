@@ -4,8 +4,6 @@ export interface ICompetitorService {
 
     SubscribeCompetitor(competitor: Competitor): Promise<Competitor>
 
-    ModifyCompetitor(competitor: Competitor): Promise<Competitor>
-
     FinishGame(): Promise<Competitor>
 
     UnsubscribeCompetitor(id: string): void

@@ -1,9 +1,10 @@
 import {prop, Ref} from "@typegoose/typegoose";
 import {Tournament} from "./Tournament";
 import {ApiModel} from "swagger-express-ts";
+import {SoftDeleteableBean} from "./SoftDeleteableBean";
 
 @ApiModel({name: "Competitor", description: "Competitor"})
-export class Competitor {
+export class Competitor extends SoftDeleteableBean{
     @prop()
     userId: number = 0;
     @prop({ref: Tournament})

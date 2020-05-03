@@ -5,10 +5,16 @@ import {TYPES} from "../../types/types";
 import {WrapperDB} from "../WrappereDB";
 import {mongoose} from "@typegoose/typegoose";
 import {Competitor} from "../../models/Competitor";
+import {Cursor} from "mongodb";
 
 @injectable()
 export class CompetitorRepositoryImpl extends GenericDao<Competitor> implements ICompetitorRepository {
     constructor(@inject(TYPES.WrapperDB)db: WrapperDB) {
         super(mongoose.connection.collection("Competitor"));
+    }
+
+    async findByTournamentId(id: string): Promise<Competitor[]> {
+        const cursor: Cursor<Competitor> = await this._collection.find<Competitor>({tournament:mongoose.Types.ObjectId(id)});
+        return cursor.toArray();
     }
 }

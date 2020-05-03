@@ -2,9 +2,10 @@ import {injectable} from "inversify";
 import {Collection, Cursor} from 'mongodb';
 import {IGenericDao} from "../IGenericDao";
 import {mongoose} from "@typegoose/typegoose";
+import {SoftDeleteableBean} from "../../models/SoftDeleteableBean";
 
 @injectable()
-export class GenericDao<T> implements IGenericDao<T> {
+export class GenericDao<T extends SoftDeleteableBean> implements IGenericDao<T> {
     public readonly _collection: Collection;
 
     constructor(collection: Collection) {
@@ -23,16 +24,17 @@ export class GenericDao<T> implements IGenericDao<T> {
     }
 
     async delete(id: string): Promise<boolean> {
-        return (await this._collection.deleteOne({_id: mongoose.Types.ObjectId(id)})).result.ok === 0
+        return (await this._collection.updateOne({_id:mongoose.Types.ObjectId(id)},{active:false})).result.ok === 0;
     }
 
     async find(item: T): Promise<T[]> {
+        item.active=true;
         const cursor: Cursor<T> = await this._collection.find<T>();
         return cursor.toArray()
     }
 
     async findOne(id: string): Promise<T> {
-        return <T>(await this._collection.findOne({_id: mongoose.Types.ObjectId(id)}) as unknown);
+        return <T>(await this._collection.findOne({_id: mongoose.Types.ObjectId(id), active:true}) as unknown);
     }
 
 }
