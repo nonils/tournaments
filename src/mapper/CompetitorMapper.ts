@@ -1,6 +1,7 @@
 import {CompetitorRequest} from "../controller/dto/CompetitorRequest";
 import {Competitor} from "../models/Competitor";
 import {mongoose} from "@typegoose/typegoose";
+import {PlayedGameTransactionDTO} from "../controller/dto/PlayedGameTransactionDTO";
 
 export class CompetitorMapper {
     static MapFromCompetitorRequestToCompetitor(request: CompetitorRequest): Competitor {
@@ -8,5 +9,9 @@ export class CompetitorMapper {
         entity.userId = request.userId;
         entity.tournament = mongoose.Types.ObjectId(request.tournamentId);
         return entity;
+    }
+
+    static MapPlayedGame(body: any): PlayedGameTransactionDTO {
+        return body as PlayedGameTransactionDTO;
     }
 }

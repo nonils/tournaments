@@ -17,4 +17,8 @@ export class CompetitorRepositoryImpl extends GenericDao<Competitor> implements 
         const cursor: Cursor<Competitor> = await this._collection.find<Competitor>({tournament:mongoose.Types.ObjectId(id)});
         return cursor.toArray();
     }
+
+    async findByUserIdAndGameId(gameId: number, userId: number): Promise<Competitor> {
+        return await this._collection.findOne<Competitor>({gameId:gameId, userId:userId}) as Competitor;
+    }
 }

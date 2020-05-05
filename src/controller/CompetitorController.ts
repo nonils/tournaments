@@ -46,14 +46,9 @@ export class CompetitorController implements interfaces.Controller {
         res.send(await this._competitorService.FindCompetitorById(req.params.id));
     }
 
-    @httpPut("/")
-    public async ModifyCompetitor(req: Request, res: Response) {
-
-    }
-
-    @httpPost("/played")
+    @httpPost("/:id/played")
     public async AddPlayedGame(req: Request, res: Response) {
-
+        res.send(await this._competitorService.FinishGame(CompetitorMapper.MapPlayedGame(req.body)));
     }
 
 

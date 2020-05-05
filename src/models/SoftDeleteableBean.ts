@@ -1,6 +1,8 @@
 import {prop} from "@typegoose/typegoose";
 
-export abstract class SoftDeleteableBean {
+import {Document} from 'mongoose';
+
+export abstract class SoftDeleteableBean extends Document {
     @prop()
-    active:boolean= true;
+    active: boolean = true;
 }
