@@ -2,7 +2,7 @@ import {Request, Response} from 'express';
 import {inject} from "inversify";
 import {ITournamentService} from "../services/ITournamentService";
 import {TYPES} from "../types/types";
-import {controller, httpDelete, httpGet, httpPost, httpPut, interfaces} from "inversify-express-utils";
+import {controller, httpDelete, httpGet, httpPost, httpPut, interfaces, requestParam} from "inversify-express-utils";
 import {CreateNewTournamentRequest} from "./dto/CreateNewTournamentRequest";
 import {ApiOperationGet, ApiOperationPost, ApiPath, SwaggerDefinitionConstant} from "swagger-express-ts";
 import {Tournament} from "../models/Tournament";
@@ -25,6 +25,36 @@ export class TournamentController implements interfaces.Controller {
         this._tournamentService = tournamentService;
     }
 
+    @ApiOperationGet({
+        description: "Get tournament object by id",
+        path:"/{id}",
+        summary: "Get an existing tournament by id",
+        parameters: {
+            path: {
+                id: {
+                    required: true,
+                    type: SwaggerDefinitionConstant.Parameter.Type.STRING,
+                },
+            }
+        },
+        responses: {
+            200: {description: "Success", model: "Tournament", type: "Tournament"},
+            400: {description: "Parameters fail"},
+            404: {description: "An element was not found trying to create the tournament"}
+        }
+    })
+    @httpGet("/:id")
+    public async GetTournamentById(@requestParam('id') id: string,
+                                   req: Request,
+                                   res: Response) {
+        const tournament = await this._tournamentService.findTournamentById(id);
+        if (!tournament) {
+            throw new TournamentNotFoundException(req.params.id);
+        }
+        res.send(tournament);
+        return;
+    }
+
     @ApiOperationPost({
         description: "Post tournament object",
         summary: "Create a new tournament",
@@ -32,10 +62,11 @@ export class TournamentController implements interfaces.Controller {
             body: {description: "Create a new tournament", required: true, model: "TournamentRequest"}
         },
         responses: {
-            200: {description: "Success"},
+            200: {description: "Success", model: "Tournament"},
             400: {description: "Parameters fail"},
             404: {description: "An element was not found trying to create the tournament"}
         }
+
     })
     @httpPost("/",)
     public async createNewTournament(req: Request, res: Response) {
@@ -57,16 +88,6 @@ export class TournamentController implements interfaces.Controller {
     @httpGet("/")
     public async GetTournaments(req: Request, res: Response) {
         res.send(await this._tournamentService.findAllTournaments());
-    }
-
-    @httpGet("/:id")
-    public async GetTournamentById(req: Request, res: Response) {
-        const tournament = await this._tournamentService.findTournamentById(req.params.id);
-        if (!tournament) {
-            throw new TournamentNotFoundException(req.params.id);
-        }
-        res.send(tournament);
-        return;
     }
 
     @httpPut("/")

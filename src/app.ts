@@ -23,6 +23,7 @@ import {ICompetitorRepository} from "./repository/ICompetitorRepository";
 import {ICompetitorService} from "./services/ICompetitorService";
 import {CompetitorController} from "./controller/CompetitorController";
 import errorMiddleware from "./middleware/CustomExceptionMiddleware";
+import {HOST} from "./constants/system.constants";
 
 // set up container
 let container = new Container();
@@ -72,14 +73,15 @@ class App {
         app.use(swagger.express(
             {
                 definition: {
+                    host:HOST,
+                    basePath:"/api/v1/",
                     info: {
-                        title: "My api",
+                        title: "Tournaments",
                         version: "1.0"
                     },
                     externalDocs: {
-                        url: "My url"
+                        url: HOST
                     }
-                    // Models can be defined here
                 }
             }
         ));
