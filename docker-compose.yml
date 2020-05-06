@@ -3,8 +3,8 @@ services:
   web:
     build: .
     ports:
-      — "9090:9090"
+      - "9090:9090"
     depends_on:
-      — mongo
+      - mongo
   mongo:
     image: mongo
