@@ -1,13 +1,13 @@
-import {Tournament} from "../models/Tournament";
+import {TournamentModel} from "../models/TournamentModel";
 
 export interface ITournamentService {
-    createTournament(tournamnet: Tournament): Promise<Tournament>
+    createTournament(tournamnet: TournamentModel): Promise<TournamentModel>
 
-    findAllTournaments(): Promise<Tournament[]>;
+    findAllTournaments(): Promise<TournamentModel[]>;
 
-    findTournamentById(id: string): Promise<Tournament>;
+    findTournamentById(id: string): Promise<TournamentModel>;
 
     deleteTournamentById(id: string): void;
 
-    updateTournament(id: string, tournament: Tournament): Promise<Tournament>;
+    updateTournament(id: string, tournament: TournamentModel): Promise<TournamentModel>;
 }

@@ -1,11 +1,18 @@
-import {ApiModel, ApiModelProperty, SwaggerDefinitionConstant} from "swagger-express-ts";
+import {BaseFormatter} from "./BaseFormatter";
 
-@ApiModel({name: "PrizeElement", description: "Prizes elements of the prize"})
-export class PrizeElement {
-    @ApiModelProperty({description: 'quantity of item that will receive'})
-    quantity: number = 0;
-    @ApiModelProperty({description: 'type of item that will receive'})
-    type: string = "";
-    @ApiModelProperty({description: 'In case that the prize will be a achievement must have an id associated to the booster', type:SwaggerDefinitionConstant.Parameter.Type.NUMBER})
-    associatedIds: number[] = [];
+export interface IPrizeElement {
+    quantity: number;
+    type: string;
+    associatedIds: number[];
+}
+
+export class PrizeElementFormatter extends BaseFormatter implements IPrizeElement {
+    associatedIds: number[];
+    quantity: number;
+    type: string;
+
+    constructor(args: any) {
+        super();
+        this.format(args);
+    }
 }
