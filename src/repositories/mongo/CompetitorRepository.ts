@@ -3,11 +3,12 @@ import {Schema} from 'mongoose';
 import {BaseRepository} from './BaseRepository';
 import {inject, ProvideSingleton} from '../../ioc';
 import {MongoDbConnection} from '../../config/MongoDbConnection';
-import {ITournamentModel, TournamentFormatter} from "../../models/TournamentModel";
+import {TournamentFormatter} from "../../models/TournamentModel";
+import {ICompetitorModel} from "../../models/Competitor";
 
-@ProvideSingleton(TournamentRepository)
-export class TournamentRepository extends BaseRepository<ITournamentModel> {
-    protected modelName: string = 'Tournament';
+@ProvideSingleton(CompetitorRepository)
+export class CompetitorRepository extends BaseRepository<ICompetitorModel> {
+    protected modelName: string = 'Competitor';
 
     protected prizeElementSchema: Schema = new Schema({
         quantity: {type: Number, required: true},

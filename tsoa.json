@@ -8,7 +8,7 @@
   "routes": {
     "entryFile": "./src/controllers/index.ts",
     "routesDir": "./build",
-    "basePath": "/service/",
+    "basePath": "/api/",
     "authenticationModule": "./src/auth.ts",
     "middleware": "express",
     "iocModule": "./src/ioc"

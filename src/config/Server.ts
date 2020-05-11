@@ -7,7 +7,6 @@ import constants from './constants';
 import {ErrorHandler} from './ErrorHandler';
 import {RegisterRoutes} from '../../build/routes';
 import {Logger} from './Logger';
-import {iocContainer} from '../ioc';
 import '../controllers';
 
 export class Server {

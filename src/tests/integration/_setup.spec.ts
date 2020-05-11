@@ -1,5 +1,5 @@
-import { IntegrationHelper } from '../IntegrationHelper';
+import {IntegrationHelper} from '../IntegrationHelper';
 
 describe('Setup', () => {
-  IntegrationHelper.setup();
+    IntegrationHelper.setup();
 });

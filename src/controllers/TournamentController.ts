@@ -1,11 +1,13 @@
-import {Controller, Get, Route, Tags} from 'tsoa';
+import {Body, Controller, Delete, Get, Post, Put, Query, Response, Route, Tags} from 'tsoa';
 
 import {inject, ProvideSingleton} from '../ioc';
 import {ITournamentService, TournamentServiceImpl} from '../services';
 import {ITournamentModel} from "../models/TournamentModel";
+import {IPaginationModel} from "../models";
+import {ICreateTournamentRequest} from "../models/dto/CreateTournamentRequest";
 
 @Tags('Tournaments')
-@Route('tournaments')
+@Route('/v1/tournaments')
 @ProvideSingleton(TournamentController)
 export class TournamentController extends Controller {
     constructor(@inject(TournamentServiceImpl) private service: ITournamentService) {
@@ -17,33 +19,35 @@ export class TournamentController extends Controller {
         return this.service.findTournamentById(id);
     }
 
-    /* @Get()
-     public async getPaginated(
-       @Query('page') page: number,
-       @Query('limit') limit: number,
-       @Query('fields') fields?: string,
-       @Query('sort') sort?: string,
-       @Query('q') q?: string): Promise<IPaginationModel> {
-       return this.service.getPaginated(page, limit, fields, sort, q);
-     }
+    @Get()
+    public async getPaginated(
+        @Query('page') page: number,
+        @Query('limit') limit: number,
+        @Query('fields') fields?: string,
+        @Query('sort') sort?: string,
+        @Query('q') q?: string): Promise<IPaginationModel> {
+        return this.service.getPaginated(page, limit, fields, sort, q);
+    }
 
-     @Response(400, 'Bad request')
-     @Security('admin')
-     @Post()
-     public async create(@Body() body: IUserModel): Promise<IUserModel> {
-       return this.service.create(body);
-     }
+    @Get("/all")
+    public async getAll(): Promise<ITournamentModel[]> {
+        return this.service.findAllTournaments();
+    }
 
-     @Response(400, 'Bad request')
-     @Security('admin')
-     @Put('{id}')
-     public async update(id: string, @Body() body: IUserModel): Promise<IUserModel> {
-       return this.service.update(id, body);
-     }
+    @Post()
+    @Response(400, 'Bad request')
+    public async create(@Body() body: ICreateTournamentRequest): Promise<ITournamentModel> {
+        return this.service.create(body as ITournamentModel);
+    }
 
-     @Security('admin')
-     @Delete('{id}')
-     public async delete(id: string): Promise<void> {
-       return this.service.delete(id);
-     }*/
+    @Delete('{id}')
+    public async delete(id: string): Promise<void> {
+        return this.service.delete(id);
+    }
+
+    @Response(400, 'Bad request')
+    @Put('{id}')
+    public async update(id: string, @Body() body: ITournamentModel): Promise<ITournamentModel> {
+        return this.service.updateTournament(id, body);
+    }
 }
