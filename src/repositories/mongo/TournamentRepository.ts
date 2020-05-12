@@ -33,9 +33,7 @@ export class TournamentRepository extends BaseRepository<ITournamentModel> {
         inscriptionTo: {type: Date, required: true},
         gameId: {type: Number, required: true},
         prizes: {
-            type: [this.prizeSchema],
-            name: {type: String, required: true},
-            email: {type: String, required: true, unique: true},
+            type: [this.prizeSchema], required: false
         }
     });
     protected formatter = TournamentFormatter;
