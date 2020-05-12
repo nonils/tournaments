@@ -14,7 +14,7 @@ export interface ICompetitorModel extends SoftDeleteableBean {
 
 export class CompetitorFormatter extends BaseFormatter implements ICompetitorModel {
     active: boolean = undefined;
-    inscriptionDate: Date = undefined;
+    inscriptionDate: Date = new Date();
     totalMatches: number = undefined;
     totalPoints: number = undefined;
     tournamentId: string = undefined;

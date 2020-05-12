@@ -1,6 +1,7 @@
 import {IPrize} from "../Prize";
 
 export interface ICreateTournamentRequest {
+    active: boolean;
     casinoId: number;
     tournamentName: string;
     cost: number;

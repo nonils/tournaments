@@ -13,7 +13,6 @@ export class ImmutabilityHelper {
     public static immute<T>(variable: any): T {
         let copy: T;
         const variableType: string = ImmutabilityHelper.getType(variable);
-
         if (variableType === 'object') copy = {...variable};
         else if (variableType === 'array') copy = variable.slice();
         else copy = variable;

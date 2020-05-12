@@ -2,7 +2,7 @@ import {Body, Controller, Delete, Get, Post, Put, Query, Response, Route, Tags} 
 
 import {inject, ProvideSingleton} from '../ioc';
 import {IPaginationModel} from "../models";
-import {ICompetitorModel} from "../models/Competitor";
+import {ICompetitorModel} from "../models/CompetitorModel";
 import {ICompetitorService} from "../services/ICompetitorService";
 import {CompetitorServiceImpl} from "../services/impl/CompetitorServiceImpl";
 import {ICreateCompetitorRequest} from "../models/dto/CreateCompetitorRequest";
@@ -51,4 +51,8 @@ export class CompetitorController extends Controller {
     public async update(id: string, @Body() competitor: ICompetitorModel): Promise<ICompetitorModel> {
         return this.service.replaceCompetitor(id, competitor);
     }
+
+    @Response(400, 'Bad request')
+    @Post("/played-game")
+    public async
 }

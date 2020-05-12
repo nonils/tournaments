@@ -4,5 +4,5 @@ export class PlayedGameTransaction {
     casinoId: string = "";
     userId: number = 0;
     points: number = 0;
-    date: Date = new Date();
+    date: Date = undefined;
 }

@@ -1,5 +1,5 @@
 import {IBaseService} from "./IBaseService";
-import {ICompetitorModel} from "../models/Competitor";
+import {ICompetitorModel} from "../models";
 
 export interface ICompetitorService extends IBaseService<ICompetitorModel> {
 
