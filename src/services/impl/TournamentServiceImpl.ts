@@ -1,4 +1,4 @@
-import {ITournamentModel} from "../../models/TournamentModel";
+import {ITournamentModel} from "../../models";
 import {inject} from "inversify";
 import {TournamentNotFoundException} from "../../exceptions";
 import {TournamentRepository} from "../../repositories/mongo/TournamentRepository";
