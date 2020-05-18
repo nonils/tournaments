@@ -14,7 +14,12 @@ export class TournamentController extends Controller {
         super();
     }
 
-    @Get('{id}')
+    @Get("/all")
+    public async getAll(): Promise<ITournamentModel[]> {
+        return this.service.findAllTournaments();
+    }
+
+    @Get('/{id}')
     public async getById(id: string): Promise<ITournamentModel> {
         return this.service.findTournamentById(id);
     }
@@ -27,11 +32,6 @@ export class TournamentController extends Controller {
         @Query('sort') sort?: string,
         @Query('q') q?: string): Promise<IPaginationModel> {
         return this.service.getPaginated(page, limit, fields, sort, q);
-    }
-
-    @Get("/all")
-    public async getAll(): Promise<ITournamentModel[]> {
-        return this.service.findAllTournaments();
     }
 
     @Post()

@@ -34,5 +34,3 @@ export class TournamentFormatter extends BaseFormatter implements ITournamentMod
     }
 
 }
-
-

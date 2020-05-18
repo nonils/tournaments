@@ -52,4 +52,12 @@ export class CompetitorController extends Controller {
     public async update(id: string, @Body() competitor: ICompetitorModel): Promise<ICompetitorModel> {
         return this.service.replaceCompetitor(id, competitor);
     }
+
+    @Response(400, 'Bad request')
+    @Post("/played-transaction")
+    public async addPlayedTransaction(request:IAddPlayedGameRequest) : Promise<ICompetitorModel> {
+        return this.service.addPlayedTransaction(request);
+    }
+
+
 }
