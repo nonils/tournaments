@@ -2,10 +2,11 @@ import {IPrize} from "../Prize";
 
 export interface ICreateTournamentRequest {
     active: boolean;
+    bet_id: number;
     casinoId: number;
     tournamentName: string;
     cost: number;
-    mostWinMatches: boolean;
+    ruleSetStrategy: string;
     from: Date;
     to: Date;
     inscriptionFrom: Date;

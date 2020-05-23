@@ -50,6 +50,10 @@ export abstract class BaseRepository<EntityType> implements IBaseRepository<Enti
         return (await this.documentModel.find()).map(item => new this.formatter(item));
     }
 
+    public async findByFilter(query: any, order : any): Promise<EntityType[]> {
+        return (await this.documentModel.find(this.cleanWhereQuery(query)).sort(order)).map(item => new this.formatter(item));
+    }
+
     public async findOne<T>(query: any): Promise<EntityType> {
         const document: Document = await this.documentModel.findOne(query);
         if (!document) throw new ApiError(constants.errorTypes.notFound);

@@ -8,5 +8,5 @@ export interface ICompetitorService extends IBaseService<ICompetitorModel> {
 
     replaceCompetitor(id: string, competitor: ICompetitorModel): Promise<ICompetitorModel>;
 
-    addPlayedTransaction(request: IAddPlayedGameRequest): Promise<ICompetitorModel>;
+    addPlayedTransaction(request: IAddPlayedGameRequest): Promise<ICompetitorModel[]>;
 }

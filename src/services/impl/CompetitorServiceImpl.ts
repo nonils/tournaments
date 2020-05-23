@@ -7,11 +7,16 @@ import {ICompetitorModel} from "../../models";
 import {userApi} from "../../utils/api.users";
 import {UserNotFoundException} from "../../exceptions";
 import {IAddPlayedGameRequest} from "../../models/dto/AddPlayedGameRequest";
+import {TournamentRepository} from "../../repositories/mongo/TournamentRepository";
+import {IRuleSetExecutor} from "../IRuleSetExecutor";
+import {RuleSetExecutorImpl} from "./RuleSetExecutorImpl";
 
 @ProvideSingleton(CompetitorServiceImpl)
 export class CompetitorServiceImpl extends BaseService<ICompetitorModel> implements ICompetitorService {
 
-    constructor(@inject(CompetitorRepository) protected repository: CompetitorRepository) {
+    constructor(@inject(CompetitorRepository) protected repository: CompetitorRepository,
+                @inject(TournamentRepository) protected tournamentRepository: TournamentRepository,
+                @inject(RuleSetExecutorImpl)protected ruleExecutor : IRuleSetExecutor) {
         super()
     }
 
@@ -34,7 +39,12 @@ export class CompetitorServiceImpl extends BaseService<ICompetitorModel> impleme
         return await this.getById(id);
     }
 
-    addPlayedTransaction(request: IAddPlayedGameRequest): Promise<ICompetitorModel> {
-        return this.getById(request.gameId.toString());
+    async addPlayedTransaction(request: IAddPlayedGameRequest) : Promise<ICompetitorModel[]> {
+        let tournaments = await this.tournamentRepository.findByFilter({bet_id: request.bet_id, casinoId: request.casinoId}, {from: -1})
+        const transactionTime = new Date()
+        const tournament = tournaments.find(value => {
+            return value.from <= transactionTime && value.to >= transactionTime;
+        });
+        return this.ruleExecutor.execute("tournament.id", tournament.ruleSetStrategy)
     }
 }

@@ -55,7 +55,7 @@ export class CompetitorController extends Controller {
 
     @Response(400, 'Bad request')
     @Post("/played-transaction")
-    public async addPlayedTransaction(request:IAddPlayedGameRequest) : Promise<ICompetitorModel> {
+    public async addPlayedTransaction(@Body() request:IAddPlayedGameRequest) : Promise<ICompetitorModel[]> {
         return this.service.addPlayedTransaction(request);
     }
 
