@@ -1,5 +1,7 @@
 import {ICompetitorModel} from "../models";
+import {injectable} from "../ioc";
 
+@injectable()
 export abstract class AbstractRuleSet {
 
     public abstract execute(tournamentId: string): Promise<ICompetitorModel[]>;

@@ -10,6 +10,7 @@ import {IAddPlayedGameRequest} from "../../models/dto/AddPlayedGameRequest";
 import {TournamentRepository} from "../../repositories/mongo/TournamentRepository";
 import {IRuleSetExecutor} from "../IRuleSetExecutor";
 import {RuleSetExecutorImpl} from "./RuleSetExecutorImpl";
+import {CompetitorExistsException} from "../../exceptions/CompetitorExistsException";
 
 @ProvideSingleton(CompetitorServiceImpl)
 export class CompetitorServiceImpl extends BaseService<ICompetitorModel> implements ICompetitorService {
@@ -24,6 +25,10 @@ export class CompetitorServiceImpl extends BaseService<ICompetitorModel> impleme
         let userEntity = await userApi.findUserById(competitor.userId);
         if(!userEntity.id) {
             throw new UserNotFoundException(competitor.userId.toString());
+        }
+        let persistedElement =this.repository.findByUserIdAndTournamentId(competitor.userId, competitor.tournamentId);
+        if(!persistedElement) {
+            throw new CompetitorExistsException(competitor.userId, competitor.tournamentId);
         }
         competitor.inscriptionDate = new Date();
         competitor.totalMatches = 0;

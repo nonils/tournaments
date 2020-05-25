@@ -4,7 +4,7 @@ import {inject} from "inversify";
 import {CompetitorRepository} from "../../repositories/mongo/CompetitorRepository";
 import {ICompetitorModel} from "../../models";
 
-@ProvideSingleton(RuleSetMostPointsImpl)
+@ProvideSingleton(AbstractRuleSet)
 export class RuleSetMostPointsImpl extends AbstractRuleSet {
 
     constructor(@inject(CompetitorRepository) protected competitorRepository: CompetitorRepository) {

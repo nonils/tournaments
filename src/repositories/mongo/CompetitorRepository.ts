@@ -1,9 +1,11 @@
-import {Schema} from 'mongoose';
+import {Document, Schema} from 'mongoose';
 
 import {BaseRepository} from './BaseRepository';
 import {inject, ProvideSingleton} from '../../ioc';
 import {MongoDbConnection} from '../../config/MongoDbConnection';
 import {CompetitorFormatter, ICompetitorModel} from "../../models";
+import {ApiError} from "../../config/ErrorHandler";
+import constants from "../../config/constants";
 
 @ProvideSingleton(CompetitorRepository)
 export class CompetitorRepository extends BaseRepository<ICompetitorModel> {
@@ -32,5 +34,13 @@ export class CompetitorRepository extends BaseRepository<ICompetitorModel> {
     constructor(@inject(MongoDbConnection) protected dbConnection: MongoDbConnection) {
         super();
         super.init();
+    }
+
+    public async findByUserIdAndTournamentId(userId:number, tournamentId: string): Promise<ICompetitorModel> {
+        const document: Document = await this.documentModel.findOne({userId: userId, tournamentId:tournamentId});
+        if (!document) {
+            return undefined;
+        }
+        return new this.formatter(document);
     }
 }
