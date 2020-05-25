@@ -1,13 +1,14 @@
-import {IRuleSet} from "../IRuleSet";
+import {AbstractRuleSet} from "../AbstractRuleSet";
 import {ProvideSingleton} from "../../ioc";
 import {inject} from "inversify";
 import {CompetitorRepository} from "../../repositories/mongo/CompetitorRepository";
 import {ICompetitorModel} from "../../models";
 
 @ProvideSingleton(RuleSetMostPointsImpl)
-export class RuleSetMostPointsImpl implements IRuleSet {
+export class RuleSetMostPointsImpl extends AbstractRuleSet {
 
     constructor(@inject(CompetitorRepository) protected competitorRepository: CompetitorRepository) {
+        super();
     }
 
     async execute(tournamentId: string) : Promise<ICompetitorModel[]> {
