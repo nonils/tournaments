@@ -18,7 +18,6 @@ export class TournamentRepository extends BaseRepository<ITournamentModel> {
     protected prizeSchema: Schema = new Schema({
         positionFrom: {type: Number, required: true},
         positionTo: {type: Number, required: true},
-        fieldsToDefinePosition: {type: String, required: true},
         prizeElement: {type: [this.prizeElementSchema], required: true}
     })
 
