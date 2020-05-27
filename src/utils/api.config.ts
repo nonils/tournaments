@@ -5,7 +5,7 @@ export const apiUsersConfig = {
     returnRejectedPromiseOnError: true,
     withCredentials: true,
     timeout: 30000,
-    baseURL: "http://localhost:8080/api/v1/users",
+    baseURL: `http://${process.env.API_POWGAMING_SOFTCOIN_URL}:8080/api/v1/users`,
     headers: {
         common: {
             "Cache-Control": "no-cache, no-store, must-revalidate",

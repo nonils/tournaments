@@ -10,7 +10,7 @@ export class UserApi extends Api {
 
     public findUserById(userId: number): Promise<any> {
         return this.get(`/${userId}`).then((user: AxiosResponse) => {
-            return user;
+            return user.data;
         }).catch((error: AxiosError) => {
             console.error(error);
             throw new UserNotFoundException(userId.toString());
