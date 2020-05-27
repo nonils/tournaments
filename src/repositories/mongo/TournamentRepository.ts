@@ -18,14 +18,15 @@ export class TournamentRepository extends BaseRepository<ITournamentModel> {
     protected prizeSchema: Schema = new Schema({
         positionFrom: {type: Number, required: true},
         positionTo: {type: Number, required: true},
-        prizeElement: {type: [this.prizeElementSchema], required: true}
+        prizeElement: {type: [this.prizeElementSchema], required: false}
     })
 
     protected schema: Schema = new Schema({
         casinoId: {type: Number, required: true},
         tournamentName: {type: String, required: true},
         cost: {type: Number, required: true},
-        mostWinMatches: {type: Boolean, required: true},
+        ruleSetStrategy: {type: String, required: false},
+        bet_id : {type:Number, required:true},
         from: {type: Date, required: true},
         to: {type: Date, required: true},
         inscriptionFrom: {type: Date, required: true},

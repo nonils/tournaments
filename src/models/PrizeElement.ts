@@ -3,13 +3,13 @@ import {BaseFormatter} from "./BaseFormatter";
 export interface IPrizeElement {
     quantity: number;
     type: string;
-    associatedIds: number[];
+    associatedIds?: number[];
 }
 
 export class PrizeElementFormatter extends BaseFormatter implements IPrizeElement {
-    associatedIds: number[];
-    quantity: number;
-    type: string;
+    public associatedIds?: number[] = undefined;
+    public quantity: number = undefined;
+    public type: string= undefined;
 
     constructor(args: any) {
         super();
