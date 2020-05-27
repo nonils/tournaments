@@ -19,6 +19,11 @@ export class TournamentController extends Controller {
         return this.service.findAllTournaments();
     }
 
+    @Get("/suscribed/{userId}")
+    public async getAllByUserId(userId:number): Promise<ITournamentModel[]> {
+        return this.service.findAllByUserId(userId);
+    }
+
     @Get('/{id}')
     public async getById(id: string): Promise<ITournamentModel> {
         return this.service.findTournamentById(id);

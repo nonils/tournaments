@@ -6,11 +6,12 @@ import {BaseService} from "./BaseService";
 import {ProvideSingleton} from "../../ioc";
 import {ITournamentService} from "../ITournamentService";
 import * as mongoose from "mongoose";
+import {CompetitorRepository} from "../../repositories/mongo/CompetitorRepository";
 
 @ProvideSingleton(TournamentServiceImpl)
 export class TournamentServiceImpl extends BaseService<ITournamentModel> implements ITournamentService {
 
-    constructor(@inject(TournamentRepository) protected repository: TournamentRepository) {
+    constructor(@inject(TournamentRepository) protected repository: TournamentRepository, @inject(CompetitorRepository) protected competitorRepository: CompetitorRepository) {
         super()
     }
 
@@ -43,6 +44,11 @@ export class TournamentServiceImpl extends BaseService<ITournamentModel> impleme
         await this.findTournamentById(id);
         await this.repository.update(id, tournament);
         return this.findTournamentById(id);
+    }
+
+    async findAllByUserId(userId: number): Promise<ITournamentModel[]> {
+        let competitors = await this.competitorRepository.findByUser(userId);
+        return await this.repository.findByIdIn(competitors.map(competitor => competitor.tournamentId));
     }
 
 }

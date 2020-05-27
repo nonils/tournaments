@@ -11,4 +11,6 @@ export interface ITournamentService extends IBaseService<ITournamentModel> {
     deleteTournamentById(id: string): void;
 
     updateTournament(id: string, tournament: ITournamentModel): Promise<ITournamentModel>;
+
+    findAllByUserId(userId: number): Promise<ITournamentModel[]>;
 }

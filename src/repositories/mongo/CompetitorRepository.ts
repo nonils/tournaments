@@ -4,8 +4,6 @@ import {BaseRepository} from './BaseRepository';
 import {inject, ProvideSingleton} from '../../ioc';
 import {MongoDbConnection} from '../../config/MongoDbConnection';
 import {CompetitorFormatter, ICompetitorModel} from "../../models";
-import {ApiError} from "../../config/ErrorHandler";
-import constants from "../../config/constants";
 
 @ProvideSingleton(CompetitorRepository)
 export class CompetitorRepository extends BaseRepository<ICompetitorModel> {
@@ -36,11 +34,19 @@ export class CompetitorRepository extends BaseRepository<ICompetitorModel> {
         super.init();
     }
 
-    public async findByUserIdAndTournamentId(userId:number, tournamentId: string): Promise<ICompetitorModel> {
-        const document: Document = await this.documentModel.findOne({userId: userId, tournamentId:tournamentId});
+    public async findByUserIdAndTournamentId(userId: number, tournamentId: string): Promise<ICompetitorModel> {
+        const document: Document = await this.documentModel.findOne({userId: userId, tournamentId: tournamentId});
         if (!document) {
             return undefined;
         }
         return new this.formatter(document);
+    }
+
+    async findByUser(userId: number): Promise<ICompetitorModel[]> {
+        return (
+            await this.documentModel
+                .find(this.cleanWhereQuery({"userId": userId}))
+        )
+            .map(item => new this.formatter(item));
     }
 }

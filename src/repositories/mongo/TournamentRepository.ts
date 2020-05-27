@@ -4,6 +4,8 @@ import {BaseRepository} from './BaseRepository';
 import {inject, ProvideSingleton} from '../../ioc';
 import {MongoDbConnection} from '../../config/MongoDbConnection';
 import {ITournamentModel, TournamentFormatter} from "../../models";
+import {cleanQuery} from "../../utils";
+import * as mongoose from "mongoose";
 
 @ProvideSingleton(TournamentRepository)
 export class TournamentRepository extends BaseRepository<ITournamentModel> {
@@ -41,5 +43,15 @@ export class TournamentRepository extends BaseRepository<ITournamentModel> {
     constructor(@inject(MongoDbConnection) protected dbConnection: MongoDbConnection) {
         super();
         super.init();
+    }
+
+    async findByIdIn(ids: string[]):Promise<ITournamentModel[]> {
+        return (
+            await this.documentModel.find({
+                    '_id': { $in: ids.map(id => mongoose.Types.ObjectId(id))}
+            })
+
+        )
+            .map(item => new this.formatter(item));
     }
 }
